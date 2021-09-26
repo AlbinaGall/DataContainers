@@ -1,27 +1,51 @@
 #include <iostream>
 using namespace std;
 
+template<typename T>
 class List
 {
 	class Element {
-		//static int count;
-		int Data;		//значение эл-та
+		
+		T Data;		//значение эл-та
 		Element* pNext; //адрес следующего эл-та
 		Element* pPrev; //адрес предыдущего элемента
 	public:
-		Element(int Data, Element* pNext = nullptr, Element* pPrev = nullptr) : Data(Data), pNext(pNext), pPrev(pPrev) {
-			//count++;
+		Element(T Data, Element* pNext = nullptr, Element* pPrev = nullptr) : Data(Data), pNext(pNext), pPrev(pPrev) {
 			cout << "EConstructor:\t" << this << endl;
 		}
 		~Element() {
-			//count--;
 			cout << "EDestructor:\t" << this << endl;
 		}
 		friend class List;
 	}*Head, * Tail;
-	//int Element::count = 0;
 	size_t size;
 public:
+	class Iterator {
+		Element* Temp;
+	public:
+		Iterator(Element* Temp = nullptr) :Temp(Temp) {
+			cout << "ItConstructor: " << this << endl;
+		}
+		~Iterator() {
+			cout << "ItDestructor: " << this << endl;
+
+		}
+		Iterator& operator++() {
+			Temp = Temp->pNext;
+			return *this;
+		}
+		bool operator==(const Iterator& other)const {
+			return this->Temp == other.Temp;
+		}
+		bool operator!=(const Iterator& other)const {
+			return this->Temp != other.Temp;
+		}
+		int& operator*() {
+			return Temp->Data;
+		}
+	};
+	Iterator begin() { return this->Head; }
+	Iterator end() { return nullptr; }
 	size_t get_size()const {
 		return this->size;
 	}
@@ -34,24 +58,24 @@ public:
 		cout << "LConstructor:\t" << this << endl;
 	}
 
-	/*List(const initializer_list<int>& il) :List() { //делегируем конструктор по умолчанию,
+	List(const initializer_list<T>& il) :List() { //делегируем конструктор по умолчанию,
 													//чтобы не создавать пустой список вручную
 		cout << typeid(il.begin()).name() << endl;
-		for (int const* it = il.begin(); it != il.end(); it++) {
+		for (T const* it = il.begin(); it != il.end(); it++) {
 			this->push_back(*it);
 		}
 	}
 
-	List(const List& other) :List() {
+	List(const List<T>& other) :List() {
 		for (Element* Temp = other.Head; Temp; Temp = Temp->pNext)	push_back(Temp->Data);
 	}
-	*/
+	
 	~List() {
 		while (Head) pop_front();
 		cout << "LDestructor:\t" << this << endl;
 	}
 	// Operators:
-	List& operator=(const List& other) {
+	List<T>& operator=(const List<T>& other) {
 		//1. Удаляем старое значние объекта
 		while (Head)pop_front();
 		//2. Выполняем побитовое копирование
@@ -59,7 +83,7 @@ public:
 		return *this;
 	}
 	//    Adding elements
-	void push_front(int Data) {
+	void push_front(T Data) {
 		if (Head == nullptr && Tail == nullptr) {
 			Head = Tail = new Element(Data);
 		}
@@ -72,7 +96,7 @@ public:
 		size++;
 	}
 
-	void push_back(int Data) {
+	void push_back(T Data) {
 		if (Head == nullptr && Tail == nullptr) return	push_front(Data);
 		Element* New = new Element(Data);
 		New->pPrev = Tail;
@@ -80,7 +104,7 @@ public:
 		Tail = New;
 		size++;
 	}
-	void insert(int Index, int Data) {
+	void insert(int Index, T Data) {
 		if (Index == 0)return push_front(Data);
 		if (Index >= size) return push_back(Data);
 		Element* Temp = Head;
@@ -163,8 +187,8 @@ void main() {
 	list.erase(index);
 	list.print();*/
 
-	int arr[] = { 3,5,8,13,21 };
-	for (int i = 0; i < sizeof(arr) / sizeof(int); i++) {
+	double arr[] = { 3.4,5.8,13.1,21.9 };
+	for (int i = 0; i < sizeof(arr) / sizeof(double); i++) {
 		cout << arr[i] << "\t";
 	}
 	cout << endl;
@@ -173,10 +197,11 @@ void main() {
 		//i - итератор
 	//	cout<<i<<"\t";
 	//}
-	List list = { 0, 1, 2, 3, 5, 8, 13, 21 };
+	List<int> list = { 0, 1, 2, 3, 5, 8, 13, 21 };
 	for (int i : list) {
 		cout << i << "\t";
 	}
 	cout << endl;
+
 
 }
