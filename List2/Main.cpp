@@ -22,6 +22,32 @@ class List
 	//int Element::count = 0;
 	size_t size;
 public:
+	class Iterator {
+		Element* Temp;
+	public:
+		Iterator(Element* Temp = nullptr) :Temp(Temp) {
+			cout << "ItConstructor: " << this << endl;
+		}
+		~Iterator() {
+			cout << "ItDestructor: " << this << endl;
+
+		}
+		Iterator& operator++() {
+			Temp = Temp->pNext;
+			return *this;
+		}
+		bool operator==(const Iterator& other)const {
+			return this->Temp == other.Temp;
+		}
+		bool operator!=(const Iterator& other)const {
+			return this->Temp != other.Temp;
+		}
+		int& operator*() {
+			return Temp->Data;
+		}
+	};
+	Iterator begin() { return this->Head; }
+	Iterator end() { return nullptr; }
 	size_t get_size()const {
 		return this->size;
 	}
@@ -34,7 +60,7 @@ public:
 		cout << "LConstructor:\t" << this << endl;
 	}
 
-	/*List(const initializer_list<int>& il) :List() { //делегируем конструктор по умолчанию,
+	List(const initializer_list<int>& il) :List() { //делегируем конструктор по умолчанию,
 													//чтобы не создавать пустой список вручную
 		cout << typeid(il.begin()).name() << endl;
 		for (int const* it = il.begin(); it != il.end(); it++) {
@@ -45,7 +71,7 @@ public:
 	List(const List& other) :List() {
 		for (Element* Temp = other.Head; Temp; Temp = Temp->pNext)	push_back(Temp->Data);
 	}
-	*/
+	
 	~List() {
 		while (Head) pop_front();
 		cout << "LDestructor:\t" << this << endl;
