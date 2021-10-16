@@ -1,26 +1,23 @@
+//ForwardList
 #include <iostream>
 using namespace std;
 
-class Element {
-	static int count;
-	int Data;		//значение эл-та
-	Element* pNext; //адрес следующего эл-та
-public:
-	Element(int Data, Element* pNext = nullptr) : Data(Data), pNext(pNext) {
-		count++;
-		cout << "EConstructor:\t" << this << endl;
-	}
-	~Element() {
-		count--;
-		cout << "EDestructor:\t" << this << endl; 
-	}
-	friend class ForwardList;
-};
-
-int Element::count = 0;
+template<typename T>
 
 class ForwardList {
-	Element* Head;	//голова списка - указывает на начальный элемент списка (нулевой)
+	class Element {
+		static int count;
+		T Data;		//значение эл-та
+		Element* pNext; //адрес следующего эл-та
+	public:
+		Element(T Data, Element* pNext = nullptr) : Data(Data), pNext(pNext) {
+			cout << "EConstructor:\t" << this << endl;
+		}
+		~Element() {
+			cout << "EDestructor:\t" << this << endl;
+		}
+		friend class ForwardList;
+	}* Head;	//голова списка - указывает на начальный элемент списка (нулевой)
 	size_t size;
 public:
 	class Iterator{
@@ -49,6 +46,7 @@ public:
 	};
 	Iterator begin() { return this->Head; }
 	Iterator end() { return nullptr; }
+
 	ForwardList(){
 		//Конструктор по умолчанию - создает пустой список элементов
 		Head = nullptr;
@@ -58,15 +56,15 @@ public:
 
 
 	}
-	ForwardList(const initializer_list<int>& il) :ForwardList(){ //делегируем конструктор по умолчанию,
+	ForwardList(const initializer_list<T>& il) :ForwardList(){ //делегируем конструктор по умолчанию,
 																//чтобы не создавать пустой список вручную
 		cout << typeid(il.begin()).name()<<endl;
-		for (int const* it = il.begin(); it != il.end(); it++) {
+		for (T const* it = il.begin(); it != il.end(); it++) {
 			this->push_back(*it);
 		}
 	}
-	ForwardList(const ForwardList& other) :ForwardList() {
-		for (Element* Temp = other.Head; Temp; Temp = Temp->pNext)	push_back(Temp->Data);
+	ForwardList(const ForwardList<T>& other) :ForwardList() {
+		for ( Element* Temp = other.Head; Temp; Temp = Temp->pNext)	push_back(Temp->Data);
 	}
 
 	~ForwardList(){
@@ -74,15 +72,15 @@ public:
 		cout << "LDestructor:\t" << this << endl; 		
 	}
 	// Operators:
-	ForwardList& operator=(const ForwardList& other){
-		//1. Удаляем старое значние объекта
+	ForwardList<T>& operator=(const ForwardList<T>& other){
+		//1. Удаляем старое значeние объекта
 		while (Head)pop_front();
 		//2. Выполняем побитовое копирование
 		for (Element* Temp = other.Head; Temp; Temp = Temp->pNext)	push_back(Temp->Data);
 		return *this;
 	}
 //    Adding elements
-	void push_front(int Data) {
+	void push_front(T Data) {
 		//1. Создаем новый элемент:
 		Element* New = new Element(Data);
 		//2. Прикрепляем созданный элемент к списку
@@ -92,7 +90,7 @@ public:
 		size++;
 	}
 
-	void push_back(int Data) {
+	void push_back(T Data) {
 		if (Head == nullptr) return	push_front(Data);
 		Element* Temp = Head;
 		while (Temp->pNext) {
@@ -101,7 +99,7 @@ public:
 		Temp->pNext = new Element(Data);
 		size++;
 	}
-	void insert(int Index,int Data) {
+	void insert(int Index,T Data) {
 		if (Index == 0)return push_front(Data);
 		if (Index >= size) return push_back(Data);
 		Element* Temp = Head;
@@ -141,8 +139,8 @@ public:
 			cout << Temp << "\t" << Temp->Data << "\t" << Temp->pNext << endl;
 		}
 		
-		cout << "Кол-во эл-тов списка: " << size << endl;
-		cout << "Общее кол-во эл-тов: " << Element::count << endl;
+		//cout << "Кол-во эл-тов списка: " << size << endl;
+		//cout << "Общее кол-во эл-тов: " << Element::count << endl;
 	}
 };
 
@@ -171,7 +169,7 @@ void main() {
 	list.insert(index, value);
 	list.print();
 #endif //BASE_CHECK
-	ForwardList list = { 3,5,8,13,21 };
+	ForwardList<int> list = { 3,5,8,13,21 };
 	list.print();
 	cout << delimiter << endl;
 	for (int i : list) {
@@ -179,6 +177,12 @@ void main() {
 	}
 	cout << endl;
 	cout << delimiter << endl;
+
+	double arr[] = { 3.4,5.8,13.1,21.9 };
+	for (int i = 0; i < sizeof(arr) / sizeof(double); i++) {
+		cout << arr[i] << "\t";
+	}
+	cout << endl;
 	/*for (ForwardList::Iterator it = list.begin(); it != list.end(); ++it) {
 		cout << *it << endl;
 	}
