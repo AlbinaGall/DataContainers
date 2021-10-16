@@ -1,3 +1,4 @@
+//List2
 #include <iostream>
 using namespace std;
 
@@ -22,7 +23,7 @@ class List
 	//int Element::count = 0;
 	size_t size;
 public:
-	class Iterator {
+	/*class Iterator {
 		Element* Temp;
 	public:
 		Iterator(Element* Temp = nullptr) :Temp(Temp) {
@@ -47,7 +48,7 @@ public:
 		}
 	};
 	Iterator begin() { return this->Head; }
-	Iterator end() { return nullptr; }
+	Iterator end() { return nullptr; }*/
 
 	class ReverseIterator {
 		Element* Temp;
@@ -59,8 +60,8 @@ public:
 			cout << "RevItDestructor: " << this << endl;
 
 		}
-		ReverseIterator& operator--() {
-			Temp = Temp->pPrev;
+		ReverseIterator& operator++() {
+			Temp = Temp->pNext-1;
 			return *this;
 		}
 		bool operator==(const ReverseIterator& other)const {
@@ -73,8 +74,8 @@ public:
 			return Temp->Data;
 		}
 	};
-	ReverseIterator rbegin() { return this->Head; }
-	ReverseIterator rend() { return nullptr; }
+	ReverseIterator begin() { return this->Head; }
+	ReverseIterator end() { return nullptr; }
 
 	size_t get_size()const {
 		return this->size;
@@ -106,7 +107,7 @@ public:
 	}
 	// Operators:
 	List& operator=(const List& other) {
-		//1. Удаляем старое значние объекта
+		//1. Удаляем старое значeние объекта
 		while (Head)pop_front();
 		//2. Выполняем побитовое копирование
 		for (Element* Temp = other.Head; Temp; Temp = Temp->pNext)	push_back(Temp->Data);
@@ -224,7 +225,7 @@ void main() {
 	cout << endl;
 
 	
-	for (int i = (sizeof(arr) / sizeof(int)); i >0 ; i--) {
+	for (int i = 0; i < sizeof(arr) / sizeof(int); ++i) {
 		cout << arr[i] << "\t";
 	}
 	cout << endl;
