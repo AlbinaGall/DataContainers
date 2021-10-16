@@ -48,6 +48,34 @@ public:
 	};
 	Iterator begin() { return this->Head; }
 	Iterator end() { return nullptr; }
+
+	class ReverseIterator {
+		Element* Temp;
+	public:
+		ReverseIterator(Element* Temp = nullptr) :Temp(Temp) {
+			cout << "RevItConstructor: " << this << endl;
+		}
+		~ReverseIterator() {
+			cout << "RevItDestructor: " << this << endl;
+
+		}
+		ReverseIterator& operator--() {
+			Temp = Temp->pPrev;
+			return *this;
+		}
+		bool operator==(const ReverseIterator& other)const {
+			return this->Temp == other.Temp;
+		}
+		bool operator!=(const ReverseIterator& other)const {
+			return this->Temp != other.Temp;
+		}
+		int& operator*() {
+			return Temp->Data;
+		}
+	};
+	ReverseIterator rbegin() { return this->Head; }
+	ReverseIterator rend() { return nullptr; }
+
 	size_t get_size()const {
 		return this->size;
 	}
@@ -191,6 +219,12 @@ void main() {
 
 	int arr[] = { 3,5,8,13,21 };
 	for (int i = 0; i < sizeof(arr) / sizeof(int); i++) {
+		cout << arr[i] << "\t";
+	}
+	cout << endl;
+
+	
+	for (int i = (sizeof(arr) / sizeof(int)); i >0 ; i--) {
 		cout << arr[i] << "\t";
 	}
 	cout << endl;

@@ -19,10 +19,13 @@ void elevator_up(int level) {
 	cout << level << " этаж" << endl;
 }
 
+//#define ELEVATOR_CHECK
+
 void main() {
 	setlocale(LC_ALL, "Russian");
-	cout << "Hello, World!";
+	//cout << "Hello, World!";
 	//main();//рекурсивный вызов ф-ии main() неуправляемый и бесконечный
+#ifdef ELEVATOR_CHECK
 	int n, dir=0;
 	cout << "\nВыберете направление поездки стрелками вверх или вниз: "; dir=_getch();cout << _getch();
 	if (dir == VK_UP) {
@@ -33,4 +36,6 @@ void main() {
 		cout << "\nВведите номер этажа: "; cin >> n;
 		elevator_down(n);
 	}
+#endif	//ELEVATOR_CHECK
+
 }
