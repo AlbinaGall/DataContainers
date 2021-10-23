@@ -1,3 +1,4 @@
+//ForwardList
 #include <iostream>
 using namespace std;
 
@@ -158,12 +159,12 @@ void main() {
 		//list.push_front(rand() % 100);
 		list.push_back(rand() % 100);
 	}
-	//list.push_back(123);
+	/*list.push_back(123);
 	list.print();
-	//list.pop_front();
-	//list.print();
-	//list.pop_back();
-	//list.print();
+	list.pop_front();
+	list.print();
+	list.pop_back();
+	list.print();*/
 	int index;
 	int value;
 	cout << "Введите индекс добавляемого элемента: "; cin >> index;

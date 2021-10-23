@@ -1,3 +1,4 @@
+//List
 #include <iostream>
 using namespace std;
 
@@ -143,10 +144,10 @@ void main() {
 	}
 	list.print();
 	list.reverse_print();
-	/*list.push_front(111);
+	list.push_front(111);
 	list.print();
 	list.reverse_print();
-	list.push_back(9999);
+	/*list.push_back(9999);
 	list.print();
 	list.reverse_print();
 	int index;
@@ -158,8 +159,8 @@ void main() {
 	list.reverse_print();
 	list.pop_back();
 	list.print(); */
-	int index;
+	/*int index;
 	cout << "Введите индекс удаляемого элемента: "; cin >> index;
 	list.erase(index);
-	list.print();
+	list.print();*/
 }
