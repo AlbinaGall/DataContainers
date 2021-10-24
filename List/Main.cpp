@@ -147,7 +147,7 @@ void main() {
 	list.push_front(111);
 	list.print();
 	list.reverse_print();
-	/*list.push_back(9999);
+	list.push_back(9999);
 	list.print();
 	list.reverse_print();
 	int index;
@@ -158,7 +158,7 @@ void main() {
 	list.print();
 	list.reverse_print();
 	list.pop_back();
-	list.print(); */
+	list.print();
 	/*int index;
 	cout << "Введите индекс удаляемого элемента: "; cin >> index;
 	list.erase(index);
